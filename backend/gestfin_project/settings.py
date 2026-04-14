@@ -5,6 +5,9 @@ from decouple import config
 import os
 
 
+
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 # Utiliser PyMySQL à la place de mysqlclient
 import pymysql
 pymysql.install_as_MySQLdb()
