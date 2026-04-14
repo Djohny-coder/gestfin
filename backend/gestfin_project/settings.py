@@ -68,9 +68,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'gestfin_project.wsgi.application'
 DATABASES = {
-    'default': dj_database_url.config()
+    'default': dj_database_url.config(default=os.getenv("DATABASE_URL"))
 }
-
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
