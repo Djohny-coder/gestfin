@@ -1,8 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenRefreshView
-from .views import envoyer_code_verification
-
 from . import views
 
 router = DefaultRouter()
@@ -17,14 +15,14 @@ urlpatterns = [
     path('auth/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('auth/profil/', views.ProfilView.as_view(), name='profil'),
     path('auth/users/', views.UserListView.as_view(), name='users'),
-  #  path('auth/envoyer-code/', views.envoyer_code_verification, name='envoyer_code'),
-     path('auth/envoyer-code/', envoyer_code_verification),
+    
+    path('auth/envoyer-code/', views.envoyer_code_verification, name='envoyer_code'),
     path('auth/verifier-code/', views.verifier_code, name='verifier_code'),
 
-    # Dashboard & Rapports
+    # Dashboard
     path('dashboard/', views.tableau_de_bord, name='dashboard'),
     path('rapports/mensuel/', views.rapport_mensuel, name='rapport_mensuel'),
 
-    # ViewSets
+    # API
     path('', include(router.urls)),
 ]
