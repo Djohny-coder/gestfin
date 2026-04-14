@@ -1,0 +1,15 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Django
+.env
+
+# React
+node_modules/
+build/
+dist/
+
+# Misc
+.DS_Store
