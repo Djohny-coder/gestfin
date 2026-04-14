@@ -1,3 +1,5 @@
+import code
+
 from rest_framework import generics, viewsets, status, filters, serializers
 from rest_framework.decorators import api_view, permission_classes, action
 from rest_framework.permissions import AllowAny, IsAuthenticated, BasePermission, SAFE_METHODS
@@ -490,7 +492,7 @@ def envoyer_code_verification(request):
     code = CodeVerification.generer_code()
     verification = CodeVerification.objects.create(email=email, code=code)
     
-    # Envoyer l'email (ignoré en dev si non configuré)
+    # Envoyer l'email
     try:
         send_mail(
             'Code de vérification GestFin',
@@ -499,19 +501,21 @@ def envoyer_code_verification(request):
             [email],
             fail_silently=False,
         )
-        email_sent = True
     except Exception as e:
-        # En dev, on continue même si l'email échoue
-        print(f"⚠️ Email non envoyé: {e}")
-        email_sent = False
+        print("ERREUR EMAIL:", str(e))
+        return Response(
+            {"error": f"Email error: {str(e)}"},
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
     
-    # En dev, relourner aussi le code pour tester
+    # ✅ Si on arrive ici = email envoyé
     response_data = {
         'message': 'Code généré',
         'verification_id': verification.id,
     }
+    
     if settings.DEBUG:
-        response_data['code'] = code  # Afficher le code en dev
+        response_data['code'] = code
     
     return Response(response_data, status=status.HTTP_200_OK)
 
