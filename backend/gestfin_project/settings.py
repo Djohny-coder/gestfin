@@ -43,9 +43,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-CORS_ALLOWED_ORIGINS = [
-    "https://gestfinan.netlify.app",
-]
 
 CORS_ALLOW_CREDENTIALS = True
 
