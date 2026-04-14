@@ -46,6 +46,10 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "https://gestfinan.netlify.app",
 ]
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_ALL_ORIGINS = True  # 🔥 temporaire pour test
 ROOT_URLCONF = 'gestfin_project.urls'
 
 TEMPLATES = [
@@ -126,11 +130,14 @@ SIMPLE_JWT = {
 CORS_ALLOW_CREDENTIALS = True
 
 # ── Email (Gmail SMTP) ──
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
-DEFAULT_FROM_EMAIL = config('EMAIL_HOST_USER', default='noreply@gestfin.com')
 
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = os.getenv('SENDGRID_API_KEY')
+
+DEFAULT_FROM_EMAIL = 'diassoj67@gmail.com'
