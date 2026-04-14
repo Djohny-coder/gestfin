@@ -11,8 +11,6 @@ import dj_database_url
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 # Utiliser PyMySQL à la place de mysqlclient
-import pymysql
-pymysql.install_as_MySQLdb()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -68,7 +66,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'gestfin_project.wsgi.application'
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv("DATABASE_URL"))
+    'default': dj_database_url.config()
 }
 # DATABASES = {
 #     'default': {
@@ -124,10 +122,7 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
-]
+
 CORS_ALLOW_CREDENTIALS = True
 
 # ── Email (Gmail SMTP) ──
