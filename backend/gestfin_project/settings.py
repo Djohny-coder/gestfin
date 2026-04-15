@@ -8,8 +8,9 @@ import dj_database_url
 
 
 
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='apikey')
+EMAIL_HOST_PASSWORD = config('SENDGRID_API_KEY', default='')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='diassoj67@gmail.com')
 # Utiliser PyMySQL à la place de mysqlclient
 
 BASE_DIR = Path(__file__).resolve().parent.parent
