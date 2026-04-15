@@ -493,6 +493,7 @@ def envoyer_code_verification(request):
     verification = CodeVerification.objects.create(email=email, code=code)
     
     # Envoyer l'email
+    print("SENDGRID KEY:", settings.EMAIL_HOST_PASSWORD)
     try:
         send_mail(
             'Code de vérification GestFin',
