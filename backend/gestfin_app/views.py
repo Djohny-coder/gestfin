@@ -1,4 +1,5 @@
-import code
+import email
+import os
 
 from rest_framework import generics, viewsets, status, filters, serializers
 from rest_framework.decorators import api_view, permission_classes, action
@@ -10,11 +11,14 @@ from django.contrib.auth import get_user_model
 from django.db.models import Sum, Count, Q
 from django.db.models.functions import TruncMonth
 from django.utils import timezone
-from django.core.mail import send_mail
 from django.conf import settings
 from datetime import date, timedelta
 from decimal import Decimal
 import calendar
+
+from sib_api_v3_sdk import Configuration, ApiClient
+from sib_api_v3_sdk.api import transactional_emails_api
+from sib_api_v3_sdk.models import SendSmtpEmail
 
 User = get_user_model()
 
@@ -487,37 +491,50 @@ def envoyer_code_verification(request):
     
     # Supprimer les anciens codes non expirés pour cet email
     CodeVerification.objects.filter(email=email, verified=False).delete()
-    
+
     # Générer un nouveau code
     code = CodeVerification.generer_code()
     verification = CodeVerification.objects.create(email=email, code=code)
-    
+
     # Envoyer l'email
     try:
-        send_mail(
-            'Code de vérification GestFin',
-            f'Votre code de vérification est: {code}',
-            settings.DEFAULT_FROM_EMAIL,
-            [email],
-            fail_silently=False,
+        from sib_api_v3_sdk import Configuration, ApiClient
+        from sib_api_v3_sdk.api import transactional_emails_api
+        from sib_api_v3_sdk.models import SendSmtpEmail
+        import os
+
+        configuration = Configuration()
+        configuration.api_key['api-key'] = os.getenv('BREVO_API_KEY')
+
+        api_instance = transactional_emails_api.TransactionalEmailsApi(ApiClient(configuration))
+
+        email_data = SendSmtpEmail(
+            to=[{"email": email}],
+            sender={"email": "diassoj67@gmail.com", "name": "GestFin"},
+            subject="Code de vérification GestFin",
+            html_content=f"<p>Votre code de vérification est : <strong>{code}</strong></p>"
         )
+
+        api_instance.send_transac_email(email_data)
+
     except Exception as e:
         print("ERREUR EMAIL:", str(e))
+        verification.delete()
         return Response(
-            {"error": f"Email error: {str(e)}"},
+            {"error": str(e)},
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )
-    
-    # ✅ Si on arrive ici = email envoyé
+
     response_data = {
         'message': 'Code généré',
         'verification_id': verification.id,
     }
-    
+
     if settings.DEBUG:
         response_data['code'] = code
-    
+
     return Response(response_data, status=status.HTTP_200_OK)
+
 
 
 @api_view(['POST'])
