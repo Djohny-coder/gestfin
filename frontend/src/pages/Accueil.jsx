@@ -83,14 +83,14 @@ export default function Accueil() {
       role: "Directrice Financière",
       company: "TechStart Solutions",
       text: "GestFin a transformé notre processus de gestion financière. Nous avons réduit nos délais de clôture de 40%.",
-      avatar: "👩‍💼",
+      avatar: <i className="bi bi-person-badge" />,
     },
     {
       name: "Joseph Abass",
       role: "Entrepreneur",
       company: "Agence Digital Pro",
       text: "Une plateforme intuitive et puissante. Exactement ce qu'il nous fallait pour scaler notre entreprise.",
-      avatar: "👨‍💼",
+      avatar: <i className="bi bi-person-badge" />,
     },
   ];
 
@@ -222,8 +222,8 @@ export default function Accueil() {
             transition={{ delay: 0.2 }}
             className="inline-block mb-6"
           >
-            <span className="px-4 py-2 rounded-full bg-blue-500/20 border border-blue-500/50 text-blue-300 text-sm font-semibold">
-              ✨ La solution #1 pour les finances
+            <span className="px-4 py-2 rounded-full bg-blue-500/20 border border-blue-500/50 text-blue-300 text-sm font-semibold flex items-center gap-2">
+              <i className="bi bi-stars" /> La solution #1 pour les finances
             </span>
           </motion.div>
 
@@ -448,7 +448,7 @@ export default function Accueil() {
                 <p className="text-gray-300 italic">"{testimonial.text}"</p>
                 <div className="flex gap-1 mt-4">
                   {[...Array(5)].map((_, j) => (
-                    <span key={j} className="text-yellow-400">⭐</span>
+                    <i key={j} className="bi bi-star-fill text-yellow-400" />
                   ))}
                 </div>
               </motion.div>

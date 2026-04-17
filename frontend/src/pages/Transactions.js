@@ -40,7 +40,7 @@ function ModalTransaction({ initial, categories, onSave, onClose }) {
           <div className="gf-form-group">
             <label className="gf-label">Type</label>
             <div style={{ display: 'flex', gap: 8 }}>
-              {[{ v: 'entree', l: '📈 Entrée (revenu)', c: '#d1fae5', tc: '#059669' }, { v: 'sortie', l: '📉 Sortie (dépense)', c: '#fee2e2', tc: '#dc2626' }].map(opt => (
+              {[{ v: 'entree', l: <> <i className="bi bi-arrow-up-right-circle" /> Entrée (revenu)</>, c: '#d1fae5', tc: '#059669' }, { v: 'sortie', l: <> <i className="bi bi-arrow-down-right-circle" /> Sortie (dépense)</>, c: '#fee2e2', tc: '#dc2626' }].map(opt => (
                 <label key={opt.v} style={{
                   flex: 1, padding: '10px', borderRadius: 8, cursor: 'pointer',
                   border: `2px solid ${form.type_transaction === opt.v ? opt.tc : 'var(--border)'}`,

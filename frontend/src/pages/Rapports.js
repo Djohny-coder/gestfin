@@ -141,11 +141,16 @@ export default function Rapports() {
             {/* Détails par catégorie */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 24 }}>
               {[
-                { title: '📈 Revenus par catégorie', cats: entreesCats, color: '#059669' },
-                { title: '📉 Dépenses par catégorie', cats: sortiesCats, color: '#dc2626' },
-              ].map(({ title, cats, color }, gi) => (
+                { title: 'Revenus par catégorie', icon: 'bi-arrow-up-right-circle', cats: entreesCats, color: '#059669' },
+                { title: 'Dépenses par catégorie', icon: 'bi-arrow-down-right-circle', cats: sortiesCats, color: '#dc2626' },
+              ].map(({ title, icon, cats, color }, gi) => (
                 <div key={gi} className="gf-card">
-                  <div className="gf-card-header"><span className="gf-card-title">{title}</span></div>
+                  <div className="gf-card-header">
+                    <span className="gf-card-title" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <i className={`bi ${icon}`} style={{ fontSize: 16 }} />
+                      {title}
+                    </span>
+                  </div>
                   <div className="gf-card-body">
                     {cats.length === 0 ? (
                       <div style={{ textAlign: 'center', color: 'var(--text-muted)', padding: 20, fontSize: 13 }}>Aucune donnée</div>
